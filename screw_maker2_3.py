@@ -65,10 +65,16 @@ Version 2.2 May 2018
 Version 2.3 Oct 2018
 - fix missing function equal_vertex
 
+Version 2.4 Feb. 2019
+- fix nuts < M6: use cut method (slower but works here)
+
+Fixes June 2020
+- new version of makeInnerThread_2, fixes some issues with nuts.
+
 to do: check ISO7380 usage of rs and rt, actual only rs is used 
 check chamfer angle on hexogon heads and nuts
 ***************************************************************************
-*   Copyright (c) 2013, 2014, 2015 2018                                   *
+*   Copyright (c) 2013, 2014, 2015 2018, 2020                                   *
 *   Ulrich Brammer <ulrich1a[at]users.sourceforge.net>                    *
 *                                                                         *
 *   This file is a supplement to the FreeCAD CAx development system.      *
@@ -1784,158 +1790,158 @@ class Ui_ScrewMaker(object):
     QtCore.QMetaObject.connectSlotsByName(ScrewMaker)
 
   def retranslateUi(self, ScrewMaker):
-    ScrewMaker.setWindowTitle(QtGui.QApplication.translate("ScrewMaker", "Screw-Maker 2.2", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewTypeLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Type of Screw", None, QtGui.QApplication.UnicodeUTF8))
-    self.NomDiaLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Nomimal\nDiameter", None, QtGui.QApplication.UnicodeUTF8))
-    self.NomLenLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Nominal\nLength", None, QtGui.QApplication.UnicodeUTF8))
-    self.UserLenLabel.setText(QtGui.QApplication.translate("ScrewMaker", "User length \nfor screw-tap", None, QtGui.QApplication.UnicodeUTF8))
-    self.CommentLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Values in brackets are not recommended!", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "ISO4017: Hexagon head screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(1, QtGui.QApplication.translate("ScrewMaker", "ISO4014: Hexagon head bolts", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(2, QtGui.QApplication.translate("ScrewMaker", "EN1662: Hexagon bolts with flange, small\n    series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(3, QtGui.QApplication.translate("ScrewMaker", "EN1665: Hexagon bolts with flange, heavy\n    series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(4, QtGui.QApplication.translate("ScrewMaker", "ISO8676: Hexagon head screw with\n    metric fine pitch thread", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(5, QtGui.QApplication.translate("ScrewMaker", "ISO4762: Hexagon socket head cap screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(6, QtGui.QApplication.translate("ScrewMaker", "ISO7380-1: Hexagon socket button head\n    screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(7, QtGui.QApplication.translate("ScrewMaker", "ISO7380-2: Hexagon socket button head\n    screws with collar", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(8, QtGui.QApplication.translate("ScrewMaker", "DIN967: Cross recessed pan head screws\n    with collar", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(9, QtGui.QApplication.translate("ScrewMaker", "ISO10642: Hexagon socket countersunk \n    head screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(10, QtGui.QApplication.translate("ScrewMaker", "ISO2009: Slotted countersunk flat head\n    screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(11, QtGui.QApplication.translate("ScrewMaker", "ISO2010: Slotted raised countersunk head\n    screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(12, QtGui.QApplication.translate("ScrewMaker", "ISO1207: Slotted cheese head screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(13, QtGui.QApplication.translate("ScrewMaker", "ISO1580: Slotted pan head screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(14, QtGui.QApplication.translate("ScrewMaker", "ISO7045: Pan head screws, type H cross recess", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(15, QtGui.QApplication.translate("ScrewMaker", "ISO7046: Countersunk flat head screws\n    H cross recess", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(16, QtGui.QApplication.translate("ScrewMaker", "ISO7047: Raised countersunk head screws\n    H cross recess", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(17, QtGui.QApplication.translate("ScrewMaker", "ISO7048: Cheese head screws type H cross recess", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(18, QtGui.QApplication.translate("ScrewMaker", "ISO14579: Hexalobular socket head cap screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(19, QtGui.QApplication.translate("ScrewMaker", "ISO14580: Hexalobular socket cheese head\n    screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(20, QtGui.QApplication.translate("ScrewMaker", "ISO14583: Hexalobular socket pan head screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(21, QtGui.QApplication.translate("ScrewMaker", "ISO14582: Hexalobular socket countersunk\n    head screws, high head", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(22, QtGui.QApplication.translate("ScrewMaker", "ISO14584: Hexalobular socket raised\n    countersunk head screws", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(23, QtGui.QApplication.translate("ScrewMaker", "ISO7089: Plain washers - Normal series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(24, QtGui.QApplication.translate("ScrewMaker", "ISO7090: Plain washers, chamfered - Normal series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(25, QtGui.QApplication.translate("ScrewMaker", "ISO7092: Plain washers - Small series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(26, QtGui.QApplication.translate("ScrewMaker", "ISO7093-1: Plain washer - Large series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(27, QtGui.QApplication.translate("ScrewMaker", "ISO7094: Plain washers - Extra large series", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(28, QtGui.QApplication.translate("ScrewMaker", "ISO4032: Hexagon nuts, Style 1", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(29, QtGui.QApplication.translate("ScrewMaker", "ISO4033: Hexagon nuts, Style 2", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(30, QtGui.QApplication.translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(31, QtGui.QApplication.translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None, QtGui.QApplication.UnicodeUTF8))
-    self.ScrewType.setItemText(32, QtGui.QApplication.translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None, QtGui.QApplication.UnicodeUTF8))
+    ScrewMaker.setWindowTitle(QtGui.QApplication.translate("ScrewMaker", "Screw-Maker 2.4", None))
+    self.ScrewTypeLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Type of Screw", None))
+    self.NomDiaLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Nomimal\nDiameter", None))
+    self.NomLenLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Nominal\nLength", None))
+    self.UserLenLabel.setText(QtGui.QApplication.translate("ScrewMaker", "User length \nfor screw-tap", None))
+    self.CommentLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Values in brackets are not recommended!", None))
+    self.ScrewType.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "ISO4017: Hexagon head screws", None))
+    self.ScrewType.setItemText(1, QtGui.QApplication.translate("ScrewMaker", "ISO4014: Hexagon head bolts", None))
+    self.ScrewType.setItemText(2, QtGui.QApplication.translate("ScrewMaker", "EN1662: Hexagon bolts with flange, small\n    series", None))
+    self.ScrewType.setItemText(3, QtGui.QApplication.translate("ScrewMaker", "EN1665: Hexagon bolts with flange, heavy\n    series", None))
+    self.ScrewType.setItemText(4, QtGui.QApplication.translate("ScrewMaker", "ISO8676: Hexagon head screw with\n    metric fine pitch thread", None))
+    self.ScrewType.setItemText(5, QtGui.QApplication.translate("ScrewMaker", "ISO4762: Hexagon socket head cap screws", None))
+    self.ScrewType.setItemText(6, QtGui.QApplication.translate("ScrewMaker", "ISO7380-1: Hexagon socket button head\n    screws", None))
+    self.ScrewType.setItemText(7, QtGui.QApplication.translate("ScrewMaker", "ISO7380-2: Hexagon socket button head\n    screws with collar", None))
+    self.ScrewType.setItemText(8, QtGui.QApplication.translate("ScrewMaker", "DIN967: Cross recessed pan head screws\n    with collar", None))
+    self.ScrewType.setItemText(9, QtGui.QApplication.translate("ScrewMaker", "ISO10642: Hexagon socket countersunk \n    head screws", None))
+    self.ScrewType.setItemText(10, QtGui.QApplication.translate("ScrewMaker", "ISO2009: Slotted countersunk flat head\n    screws", None))
+    self.ScrewType.setItemText(11, QtGui.QApplication.translate("ScrewMaker", "ISO2010: Slotted raised countersunk head\n    screws", None))
+    self.ScrewType.setItemText(12, QtGui.QApplication.translate("ScrewMaker", "ISO1207: Slotted cheese head screws", None))
+    self.ScrewType.setItemText(13, QtGui.QApplication.translate("ScrewMaker", "ISO1580: Slotted pan head screws", None))
+    self.ScrewType.setItemText(14, QtGui.QApplication.translate("ScrewMaker", "ISO7045: Pan head screws, type H cross recess", None))
+    self.ScrewType.setItemText(15, QtGui.QApplication.translate("ScrewMaker", "ISO7046: Countersunk flat head screws\n    H cross recess", None))
+    self.ScrewType.setItemText(16, QtGui.QApplication.translate("ScrewMaker", "ISO7047: Raised countersunk head screws\n    H cross recess", None))
+    self.ScrewType.setItemText(17, QtGui.QApplication.translate("ScrewMaker", "ISO7048: Cheese head screws type H cross recess", None))
+    self.ScrewType.setItemText(18, QtGui.QApplication.translate("ScrewMaker", "ISO14579: Hexalobular socket head cap screws", None))
+    self.ScrewType.setItemText(19, QtGui.QApplication.translate("ScrewMaker", "ISO14580: Hexalobular socket cheese head\n    screws", None))
+    self.ScrewType.setItemText(20, QtGui.QApplication.translate("ScrewMaker", "ISO14583: Hexalobular socket pan head screws", None))
+    self.ScrewType.setItemText(21, QtGui.QApplication.translate("ScrewMaker", "ISO14582: Hexalobular socket countersunk\n    head screws, high head", None))
+    self.ScrewType.setItemText(22, QtGui.QApplication.translate("ScrewMaker", "ISO14584: Hexalobular socket raised\n    countersunk head screws", None))
+    self.ScrewType.setItemText(23, QtGui.QApplication.translate("ScrewMaker", "ISO7089: Plain washers - Normal series", None))
+    self.ScrewType.setItemText(24, QtGui.QApplication.translate("ScrewMaker", "ISO7090: Plain washers, chamfered - Normal series", None))
+    self.ScrewType.setItemText(25, QtGui.QApplication.translate("ScrewMaker", "ISO7092: Plain washers - Small series", None))
+    self.ScrewType.setItemText(26, QtGui.QApplication.translate("ScrewMaker", "ISO7093-1: Plain washer - Large series", None))
+    self.ScrewType.setItemText(27, QtGui.QApplication.translate("ScrewMaker", "ISO7094: Plain washers - Extra large series", None))
+    self.ScrewType.setItemText(28, QtGui.QApplication.translate("ScrewMaker", "ISO4032: Hexagon nuts, Style 1", None))
+    self.ScrewType.setItemText(29, QtGui.QApplication.translate("ScrewMaker", "ISO4033: Hexagon nuts, Style 2", None))
+    self.ScrewType.setItemText(30, QtGui.QApplication.translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None))
+    self.ScrewType.setItemText(31, QtGui.QApplication.translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None))
+    self.ScrewType.setItemText(32, QtGui.QApplication.translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None))
     
-    self.NominalDiameter.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "M1.6", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(1, QtGui.QApplication.translate("ScrewMaker", "M2", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(2, QtGui.QApplication.translate("ScrewMaker", "M2.5", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(3, QtGui.QApplication.translate("ScrewMaker", "M3", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(4, QtGui.QApplication.translate("ScrewMaker", "(M3.5)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(5, QtGui.QApplication.translate("ScrewMaker", "M4", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(6, QtGui.QApplication.translate("ScrewMaker", "M5", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(7, QtGui.QApplication.translate("ScrewMaker", "M6", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(8, QtGui.QApplication.translate("ScrewMaker", "M8", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(9, QtGui.QApplication.translate("ScrewMaker", "M10", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(10, QtGui.QApplication.translate("ScrewMaker", "M12", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(11, QtGui.QApplication.translate("ScrewMaker", "(M14)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(12, QtGui.QApplication.translate("ScrewMaker", "M16", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(13, QtGui.QApplication.translate("ScrewMaker", "(M18)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(14, QtGui.QApplication.translate("ScrewMaker", "M20", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(15, QtGui.QApplication.translate("ScrewMaker", "(M22)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(16, QtGui.QApplication.translate("ScrewMaker", "M24", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(17, QtGui.QApplication.translate("ScrewMaker", "(M27)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(18, QtGui.QApplication.translate("ScrewMaker", "M30", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(19, QtGui.QApplication.translate("ScrewMaker", "M36", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(20, QtGui.QApplication.translate("ScrewMaker", "(M33)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(21, QtGui.QApplication.translate("ScrewMaker", "M42", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(22, QtGui.QApplication.translate("ScrewMaker", "(M45)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(23, QtGui.QApplication.translate("ScrewMaker", "M48", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(24, QtGui.QApplication.translate("ScrewMaker", "(M52)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(25, QtGui.QApplication.translate("ScrewMaker", "M54", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(26, QtGui.QApplication.translate("ScrewMaker", "(M60)", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(27, QtGui.QApplication.translate("ScrewMaker", "M64", None, QtGui.QApplication.UnicodeUTF8))
+    self.NominalDiameter.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "M1.6", None))
+    self.NominalDiameter.setItemText(1, QtGui.QApplication.translate("ScrewMaker", "M2", None))
+    self.NominalDiameter.setItemText(2, QtGui.QApplication.translate("ScrewMaker", "M2.5", None))
+    self.NominalDiameter.setItemText(3, QtGui.QApplication.translate("ScrewMaker", "M3", None))
+    self.NominalDiameter.setItemText(4, QtGui.QApplication.translate("ScrewMaker", "(M3.5)", None))
+    self.NominalDiameter.setItemText(5, QtGui.QApplication.translate("ScrewMaker", "M4", None))
+    self.NominalDiameter.setItemText(6, QtGui.QApplication.translate("ScrewMaker", "M5", None))
+    self.NominalDiameter.setItemText(7, QtGui.QApplication.translate("ScrewMaker", "M6", None))
+    self.NominalDiameter.setItemText(8, QtGui.QApplication.translate("ScrewMaker", "M8", None))
+    self.NominalDiameter.setItemText(9, QtGui.QApplication.translate("ScrewMaker", "M10", None))
+    self.NominalDiameter.setItemText(10, QtGui.QApplication.translate("ScrewMaker", "M12", None))
+    self.NominalDiameter.setItemText(11, QtGui.QApplication.translate("ScrewMaker", "(M14)", None))
+    self.NominalDiameter.setItemText(12, QtGui.QApplication.translate("ScrewMaker", "M16", None))
+    self.NominalDiameter.setItemText(13, QtGui.QApplication.translate("ScrewMaker", "(M18)", None))
+    self.NominalDiameter.setItemText(14, QtGui.QApplication.translate("ScrewMaker", "M20", None))
+    self.NominalDiameter.setItemText(15, QtGui.QApplication.translate("ScrewMaker", "(M22)", None))
+    self.NominalDiameter.setItemText(16, QtGui.QApplication.translate("ScrewMaker", "M24", None))
+    self.NominalDiameter.setItemText(17, QtGui.QApplication.translate("ScrewMaker", "(M27)", None))
+    self.NominalDiameter.setItemText(18, QtGui.QApplication.translate("ScrewMaker", "M30", None))
+    self.NominalDiameter.setItemText(19, QtGui.QApplication.translate("ScrewMaker", "M36", None))
+    self.NominalDiameter.setItemText(20, QtGui.QApplication.translate("ScrewMaker", "(M33)", None))
+    self.NominalDiameter.setItemText(21, QtGui.QApplication.translate("ScrewMaker", "M42", None))
+    self.NominalDiameter.setItemText(22, QtGui.QApplication.translate("ScrewMaker", "(M45)", None))
+    self.NominalDiameter.setItemText(23, QtGui.QApplication.translate("ScrewMaker", "M48", None))
+    self.NominalDiameter.setItemText(24, QtGui.QApplication.translate("ScrewMaker", "(M52)", None))
+    self.NominalDiameter.setItemText(25, QtGui.QApplication.translate("ScrewMaker", "M54", None))
+    self.NominalDiameter.setItemText(26, QtGui.QApplication.translate("ScrewMaker", "(M60)", None))
+    self.NominalDiameter.setItemText(27, QtGui.QApplication.translate("ScrewMaker", "M64", None))
 
-    self.NominalDiameter.setItemText(28, QtGui.QApplication.translate("ScrewMaker", 'M8x1', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(29, QtGui.QApplication.translate("ScrewMaker", 'M10x1', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(30, QtGui.QApplication.translate("ScrewMaker", '(M10x1.25)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(31, QtGui.QApplication.translate("ScrewMaker", 'M12x1.5', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(32, QtGui.QApplication.translate("ScrewMaker", '(M12x1.25)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(33, QtGui.QApplication.translate("ScrewMaker", '(M14x1.5)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(34, QtGui.QApplication.translate("ScrewMaker", 'M16x1.5', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(35, QtGui.QApplication.translate("ScrewMaker", '(M18x1.5)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(36, QtGui.QApplication.translate("ScrewMaker", 'M20x1.5', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(37, QtGui.QApplication.translate("ScrewMaker", '(M20x2)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(38, QtGui.QApplication.translate("ScrewMaker", '(M22x1.5)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(39, QtGui.QApplication.translate("ScrewMaker", 'M24x2', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(40, QtGui.QApplication.translate("ScrewMaker", '(M27x2)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(41, QtGui.QApplication.translate("ScrewMaker", 'M30x2', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(42, QtGui.QApplication.translate("ScrewMaker", '(M33x2)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(43, QtGui.QApplication.translate("ScrewMaker", 'M36x3', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(44, QtGui.QApplication.translate("ScrewMaker", '(M39x3)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(45, QtGui.QApplication.translate("ScrewMaker", 'M42x3', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(46, QtGui.QApplication.translate("ScrewMaker", '(M45x3)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(47, QtGui.QApplication.translate("ScrewMaker", 'M48x3', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(48, QtGui.QApplication.translate("ScrewMaker", '(M52x4)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(49, QtGui.QApplication.translate("ScrewMaker", 'M56x4', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(50, QtGui.QApplication.translate("ScrewMaker", '(M60x4)', None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalDiameter.setItemText(51, QtGui.QApplication.translate("ScrewMaker", 'M64x4', None, QtGui.QApplication.UnicodeUTF8))
+    self.NominalDiameter.setItemText(28, QtGui.QApplication.translate("ScrewMaker", 'M8x1', None))
+    self.NominalDiameter.setItemText(29, QtGui.QApplication.translate("ScrewMaker", 'M10x1', None))
+    self.NominalDiameter.setItemText(30, QtGui.QApplication.translate("ScrewMaker", '(M10x1.25)', None))
+    self.NominalDiameter.setItemText(31, QtGui.QApplication.translate("ScrewMaker", 'M12x1.5', None))
+    self.NominalDiameter.setItemText(32, QtGui.QApplication.translate("ScrewMaker", '(M12x1.25)', None))
+    self.NominalDiameter.setItemText(33, QtGui.QApplication.translate("ScrewMaker", '(M14x1.5)', None))
+    self.NominalDiameter.setItemText(34, QtGui.QApplication.translate("ScrewMaker", 'M16x1.5', None))
+    self.NominalDiameter.setItemText(35, QtGui.QApplication.translate("ScrewMaker", '(M18x1.5)', None))
+    self.NominalDiameter.setItemText(36, QtGui.QApplication.translate("ScrewMaker", 'M20x1.5', None))
+    self.NominalDiameter.setItemText(37, QtGui.QApplication.translate("ScrewMaker", '(M20x2)', None))
+    self.NominalDiameter.setItemText(38, QtGui.QApplication.translate("ScrewMaker", '(M22x1.5)', None))
+    self.NominalDiameter.setItemText(39, QtGui.QApplication.translate("ScrewMaker", 'M24x2', None))
+    self.NominalDiameter.setItemText(40, QtGui.QApplication.translate("ScrewMaker", '(M27x2)', None))
+    self.NominalDiameter.setItemText(41, QtGui.QApplication.translate("ScrewMaker", 'M30x2', None))
+    self.NominalDiameter.setItemText(42, QtGui.QApplication.translate("ScrewMaker", '(M33x2)', None))
+    self.NominalDiameter.setItemText(43, QtGui.QApplication.translate("ScrewMaker", 'M36x3', None))
+    self.NominalDiameter.setItemText(44, QtGui.QApplication.translate("ScrewMaker", '(M39x3)', None))
+    self.NominalDiameter.setItemText(45, QtGui.QApplication.translate("ScrewMaker", 'M42x3', None))
+    self.NominalDiameter.setItemText(46, QtGui.QApplication.translate("ScrewMaker", '(M45x3)', None))
+    self.NominalDiameter.setItemText(47, QtGui.QApplication.translate("ScrewMaker", 'M48x3', None))
+    self.NominalDiameter.setItemText(48, QtGui.QApplication.translate("ScrewMaker", '(M52x4)', None))
+    self.NominalDiameter.setItemText(49, QtGui.QApplication.translate("ScrewMaker", 'M56x4', None))
+    self.NominalDiameter.setItemText(50, QtGui.QApplication.translate("ScrewMaker", '(M60x4)', None))
+    self.NominalDiameter.setItemText(51, QtGui.QApplication.translate("ScrewMaker", 'M64x4', None))
 
 
 
-    self.NominalLength.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "2", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(1, QtGui.QApplication.translate("ScrewMaker", "2.5", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(2, QtGui.QApplication.translate("ScrewMaker", "3", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(3, QtGui.QApplication.translate("ScrewMaker", "4", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(4, QtGui.QApplication.translate("ScrewMaker", "5", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(5, QtGui.QApplication.translate("ScrewMaker", "6", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(6, QtGui.QApplication.translate("ScrewMaker", "8", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(7, QtGui.QApplication.translate("ScrewMaker", "10", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(8, QtGui.QApplication.translate("ScrewMaker", "12", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(9, QtGui.QApplication.translate("ScrewMaker", "16", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(10, QtGui.QApplication.translate("ScrewMaker", "20", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(11, QtGui.QApplication.translate("ScrewMaker", "25", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(12, QtGui.QApplication.translate("ScrewMaker", "30", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(13, QtGui.QApplication.translate("ScrewMaker", "35", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(14, QtGui.QApplication.translate("ScrewMaker", "40", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(15, QtGui.QApplication.translate("ScrewMaker", "45", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(16, QtGui.QApplication.translate("ScrewMaker", "50", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(17, QtGui.QApplication.translate("ScrewMaker", "55", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(18, QtGui.QApplication.translate("ScrewMaker", "60", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(19, QtGui.QApplication.translate("ScrewMaker", "65", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(20, QtGui.QApplication.translate("ScrewMaker", "70", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(21, QtGui.QApplication.translate("ScrewMaker", "80", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(22, QtGui.QApplication.translate("ScrewMaker", "90", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(23, QtGui.QApplication.translate("ScrewMaker", "100", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(24, QtGui.QApplication.translate("ScrewMaker", "110", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(25, QtGui.QApplication.translate("ScrewMaker", "120", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(26, QtGui.QApplication.translate("ScrewMaker", "130", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(27, QtGui.QApplication.translate("ScrewMaker", "140", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(28, QtGui.QApplication.translate("ScrewMaker", "150", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(29, QtGui.QApplication.translate("ScrewMaker", "160", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(30, QtGui.QApplication.translate("ScrewMaker", "180", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(31, QtGui.QApplication.translate("ScrewMaker", "200", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(32, QtGui.QApplication.translate("ScrewMaker", "220", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(33, QtGui.QApplication.translate("ScrewMaker", "240", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(34, QtGui.QApplication.translate("ScrewMaker", "260", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(35, QtGui.QApplication.translate("ScrewMaker", "280", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(36, QtGui.QApplication.translate("ScrewMaker", "300", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(37, QtGui.QApplication.translate("ScrewMaker", "320", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(38, QtGui.QApplication.translate("ScrewMaker", "340", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(39, QtGui.QApplication.translate("ScrewMaker", "360", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(40, QtGui.QApplication.translate("ScrewMaker", "380", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(41, QtGui.QApplication.translate("ScrewMaker", "400", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(42, QtGui.QApplication.translate("ScrewMaker", "420", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(43, QtGui.QApplication.translate("ScrewMaker", "440", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(44, QtGui.QApplication.translate("ScrewMaker", "460", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(45, QtGui.QApplication.translate("ScrewMaker", "480", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(46, QtGui.QApplication.translate("ScrewMaker", "500", None, QtGui.QApplication.UnicodeUTF8))
-    self.NominalLength.setItemText(47, QtGui.QApplication.translate("ScrewMaker", "User", None, QtGui.QApplication.UnicodeUTF8))
-    #self.UserLen.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "regular pitch", None, QtGui.QApplication.UnicodeUTF8))
-    self.SimpleScrew.setText(QtGui.QApplication.translate("ScrewMaker", "Simple Screw (no thread at all!)", None, QtGui.QApplication.UnicodeUTF8))
-    self.SymbolThread.setText(QtGui.QApplication.translate("ScrewMaker", "Symbol Thread (not implemented yet)", None, QtGui.QApplication.UnicodeUTF8))
-    self.RealThread.setText(QtGui.QApplication.translate("ScrewMaker", "Real Thread (takes time, memory intensive)\nMay not work for all screws!", None, QtGui.QApplication.UnicodeUTF8))
-    self.MessageLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Select your screw type", None, QtGui.QApplication.UnicodeUTF8))
-    self.MessageLabel.setProperty("Errortext", QtGui.QApplication.translate("ScrewMaker", "Combination not implemented", None, QtGui.QApplication.UnicodeUTF8))
-    self.MessageLabel.setProperty("OK_text", QtGui.QApplication.translate("ScrewMaker", "Screw is made", None, QtGui.QApplication.UnicodeUTF8))
-    self.CreateButton.setText(QtGui.QApplication.translate("ScrewMaker", "create", None, QtGui.QApplication.UnicodeUTF8))
+    self.NominalLength.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "2", None))
+    self.NominalLength.setItemText(1, QtGui.QApplication.translate("ScrewMaker", "2.5", None))
+    self.NominalLength.setItemText(2, QtGui.QApplication.translate("ScrewMaker", "3", None))
+    self.NominalLength.setItemText(3, QtGui.QApplication.translate("ScrewMaker", "4", None))
+    self.NominalLength.setItemText(4, QtGui.QApplication.translate("ScrewMaker", "5", None))
+    self.NominalLength.setItemText(5, QtGui.QApplication.translate("ScrewMaker", "6", None))
+    self.NominalLength.setItemText(6, QtGui.QApplication.translate("ScrewMaker", "8", None))
+    self.NominalLength.setItemText(7, QtGui.QApplication.translate("ScrewMaker", "10", None))
+    self.NominalLength.setItemText(8, QtGui.QApplication.translate("ScrewMaker", "12", None))
+    self.NominalLength.setItemText(9, QtGui.QApplication.translate("ScrewMaker", "16", None))
+    self.NominalLength.setItemText(10, QtGui.QApplication.translate("ScrewMaker", "20", None))
+    self.NominalLength.setItemText(11, QtGui.QApplication.translate("ScrewMaker", "25", None))
+    self.NominalLength.setItemText(12, QtGui.QApplication.translate("ScrewMaker", "30", None))
+    self.NominalLength.setItemText(13, QtGui.QApplication.translate("ScrewMaker", "35", None))
+    self.NominalLength.setItemText(14, QtGui.QApplication.translate("ScrewMaker", "40", None))
+    self.NominalLength.setItemText(15, QtGui.QApplication.translate("ScrewMaker", "45", None))
+    self.NominalLength.setItemText(16, QtGui.QApplication.translate("ScrewMaker", "50", None))
+    self.NominalLength.setItemText(17, QtGui.QApplication.translate("ScrewMaker", "55", None))
+    self.NominalLength.setItemText(18, QtGui.QApplication.translate("ScrewMaker", "60", None))
+    self.NominalLength.setItemText(19, QtGui.QApplication.translate("ScrewMaker", "65", None))
+    self.NominalLength.setItemText(20, QtGui.QApplication.translate("ScrewMaker", "70", None))
+    self.NominalLength.setItemText(21, QtGui.QApplication.translate("ScrewMaker", "80", None))
+    self.NominalLength.setItemText(22, QtGui.QApplication.translate("ScrewMaker", "90", None))
+    self.NominalLength.setItemText(23, QtGui.QApplication.translate("ScrewMaker", "100", None))
+    self.NominalLength.setItemText(24, QtGui.QApplication.translate("ScrewMaker", "110", None))
+    self.NominalLength.setItemText(25, QtGui.QApplication.translate("ScrewMaker", "120", None))
+    self.NominalLength.setItemText(26, QtGui.QApplication.translate("ScrewMaker", "130", None))
+    self.NominalLength.setItemText(27, QtGui.QApplication.translate("ScrewMaker", "140", None))
+    self.NominalLength.setItemText(28, QtGui.QApplication.translate("ScrewMaker", "150", None))
+    self.NominalLength.setItemText(29, QtGui.QApplication.translate("ScrewMaker", "160", None))
+    self.NominalLength.setItemText(30, QtGui.QApplication.translate("ScrewMaker", "180", None))
+    self.NominalLength.setItemText(31, QtGui.QApplication.translate("ScrewMaker", "200", None))
+    self.NominalLength.setItemText(32, QtGui.QApplication.translate("ScrewMaker", "220", None))
+    self.NominalLength.setItemText(33, QtGui.QApplication.translate("ScrewMaker", "240", None))
+    self.NominalLength.setItemText(34, QtGui.QApplication.translate("ScrewMaker", "260", None))
+    self.NominalLength.setItemText(35, QtGui.QApplication.translate("ScrewMaker", "280", None))
+    self.NominalLength.setItemText(36, QtGui.QApplication.translate("ScrewMaker", "300", None))
+    self.NominalLength.setItemText(37, QtGui.QApplication.translate("ScrewMaker", "320", None))
+    self.NominalLength.setItemText(38, QtGui.QApplication.translate("ScrewMaker", "340", None))
+    self.NominalLength.setItemText(39, QtGui.QApplication.translate("ScrewMaker", "360", None))
+    self.NominalLength.setItemText(40, QtGui.QApplication.translate("ScrewMaker", "380", None))
+    self.NominalLength.setItemText(41, QtGui.QApplication.translate("ScrewMaker", "400", None))
+    self.NominalLength.setItemText(42, QtGui.QApplication.translate("ScrewMaker", "420", None))
+    self.NominalLength.setItemText(43, QtGui.QApplication.translate("ScrewMaker", "440", None))
+    self.NominalLength.setItemText(44, QtGui.QApplication.translate("ScrewMaker", "460", None))
+    self.NominalLength.setItemText(45, QtGui.QApplication.translate("ScrewMaker", "480", None))
+    self.NominalLength.setItemText(46, QtGui.QApplication.translate("ScrewMaker", "500", None))
+    self.NominalLength.setItemText(47, QtGui.QApplication.translate("ScrewMaker", "User", None))
+    #self.UserLen.setItemText(0, QtGui.QApplication.translate("ScrewMaker", "regular pitch", None))
+    self.SimpleScrew.setText(QtGui.QApplication.translate("ScrewMaker", "Simple Screw (no thread at all!)", None))
+    self.SymbolThread.setText(QtGui.QApplication.translate("ScrewMaker", "Symbol Thread (not implemented yet)", None))
+    self.RealThread.setText(QtGui.QApplication.translate("ScrewMaker", "Real Thread (takes time, memory intensive)\nMay not work for all screws!", None))
+    self.MessageLabel.setText(QtGui.QApplication.translate("ScrewMaker", "Select your screw type", None))
+    self.MessageLabel.setProperty("Errortext", QtGui.QApplication.translate("ScrewMaker", "Combination not implemented", None))
+    self.MessageLabel.setProperty("OK_text", QtGui.QApplication.translate("ScrewMaker", "Screw is made", None))
+    self.CreateButton.setText(QtGui.QApplication.translate("ScrewMaker", "create", None))
 
 
 
@@ -1945,7 +1951,7 @@ class Ui_ScrewMaker(object):
     ND_text = str(self.NominalDiameter.currentText())
     NL_text = str(self.NominalLength.currentText())
     M_text, self.ScrewAvailable  = self.theScrew.check_Data(ST_text, ND_text, NL_text)
-    self.MessageLabel.setText(QtGui.QApplication.translate("ScrewMaker", M_text, None, QtGui.QApplication.UnicodeUTF8))
+    self.MessageLabel.setText(QtGui.QApplication.translate("ScrewMaker", M_text, None))
 
 
   def guiCreateScrew(self):
@@ -1981,7 +1987,18 @@ class Ui_ScrewMaker(object):
 class Screw(object):
   def __init__(self):
     self.objAvailable = True
+    # The experience showed, that the helix diameter has a subtle
+    # influence on the real thread produced with this helix.
+    # It can be the difference between fast or slow creation of
+    # the thread or a valid or invalid shape.
+    # self.Tuner is an instrument to allow tests with different helix
+    # diameters.
     self.Tuner = 510
+    
+    # OCCT seems to change the orientation of circles from time to time.
+    # This is a test, in order to check this. self.circleAxis is used
+    # where a circle and a hex are combined in one profile.
+    # A combined profile is faster compared to cutting profiles.
     testCirc=Part.makeCircle(2.0,Base.Vector(0.0,0.0,-0.0),Base.Vector(0.0,0.0,-1.0))
     testDisk = Part.Face(Part.Wire(testCirc))
     z = testDisk.Surface.Axis.z
@@ -2190,7 +2207,7 @@ class Screw(object):
         NL_min, NL_max = tab_range[ND_text]
         NL_min_float = float(NL_min)
         NL_max_float = float(NL_max)
-        if (NL_text == 'User') and (ST_text <> 'ISO8676'): 
+        if (NL_text == 'User') and (ST_text is not 'ISO8676'): 
           M_text = 'User length is only available for the screw-tab and ISO 8676!'
           self.objAvailable = False
         else:
@@ -2332,7 +2349,7 @@ class Screw(object):
         if ND_text not in table:
            FreeCAD.Console.PrintMessage("Combination of type "+ST_text \
               + " and diameter " + ND_text +" not available!" + "\n")
-        #self.MessageLabel.setText(QtGui.QApplication.translate("ScrewMaker", "not implemented", None, QtGui.QApplication.UnicodeUTF8))
+        #self.MessageLabel.setText(QtGui.QApplication.translate("ScrewMaker", "not implemented", None))
             
       except ValueError:
         #print "Error! nom_dia and length values must be valid numbers!"
@@ -2433,7 +2450,7 @@ class Screw(object):
     # search for a plane face
     for f in fList:
       if hasattr(f,'Surface'):
-        print 'type of surface: ', str(f.Surface)
+        print ('type of surface: ', str(f.Surface))
         if f.Surface.isPlanar():
           fAxis = f.Surface.normal(0,0)
           print ('got planar Face with normal: ', str(f.Surface.normal(0,0)))
@@ -4244,7 +4261,8 @@ class Screw(object):
     
     #rotations = int(rots)-1
     halfrots_int = int(halfrots)
-    rotations = (halfrots_int / 2)-1
+    rotations = int((halfrots_int / 2)-1)
+    print ("halfrots_int: ", halfrots_int, " rotations: ", rotations)
     if halfrots_int % 2 == 1:
       #FreeCAD.Console.PrintMessage("got half turn: " + str(halfrots_int) + "\n")
       halfturn = True
@@ -4542,9 +4560,15 @@ class Screw(object):
   def makeInnerThread_2(self, d, P, rotations, da, l):
     d = float(d)
     bot_off = 0.0 # nominal length
+    
+    if d>52.0:
+      fuzzyValue = 5e-5
+    else:
+      fuzzyValue = 0.0
 
     H=P*math.cos(math.radians(30)) # Gewindetiefe H
     r=d/2.0
+    
     
     helix = Part.makeHelix(P,P,d*self.Tuner/1000.0,0) # make just one turn, length is identical to pitch
     helix.translate(FreeCAD.Vector(0.0, 0.0,-P*9.0/16.0))
@@ -4558,11 +4582,10 @@ class Screw(object):
     ps3 =  (r, 0.0, -P*14.0/16.0)
     ps4 = (r+H*1/24.0,0.0, -P*31.0/32.0) # Center of Arc
     ps5 = (r,0.0, -P)
+    
+    
     ps6 = (r+extra_rad,0.0, -P)
     ps7 = (r+extra_rad,0.0, 0.0) 
-
-    #ps6 = (r-extra_rad,0.0, -P)
-    #ps7 = (r-extra_rad,0.0, 0.0) 
      
     edge0 = Part.makeLine(ps0,ps1)
     edge1 = Part.makeLine(ps1,ps2)
@@ -4573,97 +4596,26 @@ class Screw(object):
     edge6 = Part.makeLine(ps7,ps0)
      
     W0 = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6])
-    # Part.show(W0)
+    # Part.show(W0, 'W0')
     
     makeSolid=True
     isFrenet=True
     pipe0 = Part.Wire(helix).makePipeShell([W0],makeSolid,isFrenet)
-    # pipe1 = pipe0.copy()
+    #pipe1 = pipe0.copy()
   
     TheFaces = [] 
     TheFaces.append(pipe0.Faces[0])
     TheFaces.append(pipe0.Faces[1])
     TheFaces.append(pipe0.Faces[2])
     TheFaces.append(pipe0.Faces[3])
+    #topHeliFaces = [pipe0.Faces[6], pipe0.Faces[8]]
+    #innerHeliFaces = [pipe0.Faces[5]]
+    #bottomFaces = [pipe0.Faces[4], pipe0.Faces[7]]
     
     TheShell = Part.Shell(TheFaces)
+    #singleThreadShell = TheShell.copy()
     # print "Shellpoints: ", len(TheShell.Vertexes)
-
-    # Handling of the top faces
-    if da <> None:
-      TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-      for flaeche in TheShell.Faces:
-       TheFaces.append(flaeche)
-      TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-      for flaeche in TheShell.Faces:
-       TheFaces.append(flaeche)
-
-      cham_i_delta = da/2.0 - (r-H)
-      cham_i = cham_i_delta * math.tan(math.radians(15.0))
-      
-      offSet = rotations*P - l
-      #FreeCAD.Console.PrintMessage("Der Offset: " + str(offSet/P) + "\n")
-      
-      # points for chamfer: common-Method
-      pch0 =  (da/2.0-cham_i_delta, 0.0, -cham_i - offSet) # bottom chamfer
-      pch1 =  (da/2.0, 0.0, 0.0 - offSet)  #
-      pch2 =  (da/2.0, 0.0, -4.0*P - offSet)
-      pch3 =  (da/2.0-cham_i_delta, 0.0, -4.0*P - offSet)
-    
-      edgech0 = Part.makeLine(pch0,pch1)
-      edgech1 = Part.makeLine(pch1,pch2)
-      edgech2 = Part.makeLine(pch2,pch3)
-      edgech3 = Part.makeLine(pch3,pch0)
-    
-      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
-      cham_Face =Part.Face(Wch_wire)
-      cham_Solid = cham_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
-      #Part.show(cham_Solid)
-      #Part.show(Wch_wire)
-      
-      rawTopShell = Part.Shell(TheFaces)
-      topShell = rawTopShell.common(cham_Solid)
-
-      # Making a Cutter for the cham face
-      commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 2.0*P)
-      commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-2.0*P))
-      #Part.show(commonbox)
-      
-      cutterShell = rawTopShell.common(commonbox)
-      bot_edges =[]
-      bot_z =  1.0e-5 -2.0*P
-      
-      for kante in cutterShell.Edges:
-         if (kante.Vertexes[0].Point.z<=bot_z) and (kante.Vertexes[1].Point.z<=bot_z):
-            bot_edges.append(kante)
-            # Part.show(kante)
-      bot_wire = Part.Wire(Part.__sortEdges__(bot_edges))
-         
-      bot_face = Part.Face(bot_wire)
-      bot_face.reverse()
-      t_face = bot_face.copy()
-      t_face.translate(Base.Vector(0.0, 0.0, 2.0*P))
-      cutterFaces = cutterShell.Faces
-      cutterFaces.append(bot_face.Faces[0])
-      cutterFaces.append(t_face.Faces[0])
-      cutShell = Part.Shell(cutterFaces)
-      chamFcutter = Part.Solid(cutShell)
-      
-      #Part.show(chamFcutter) 
-      topCham = cham_Solid.Faces[0]
-      topCham = topCham.cut(chamFcutter)
-
-      #Part.show(topCham)
-      TheFaces = [topCham.Faces[0]]
-      TheFaces.extend(topShell.Faces)
-
-      for i in range(rotations-4):
-         TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-         for flaeche in TheShell.Faces:
-           TheFaces.append(flaeche)
-
-
-    else:
+    if da is None:
       commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 3.0*P)
       commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(3.0)*P))
       topShell = TheShell.common(commonbox)
@@ -4679,71 +4631,23 @@ class Screw(object):
       
       TheFaces = [top_face.Faces[0]]
       TheFaces.extend(topShell.Faces)
-
+  
       for i in range(rotations-2):
          TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
          for flaeche in TheShell.Faces:
            TheFaces.append(flaeche)
-    
-    #FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
-    # Make separate faces for the tip of the screw
-    botFaces = []
-    for i in range(rotations-2, rotations, 1):
-       TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-  
-       for flaeche in TheShell.Faces:
-         botFaces.append(flaeche)
-    #FreeCAD.Console.PrintMessage("Bottom-Shell: " + str(i) + "\n")
-    
-    if da <> None:
-      # points for chamfer: common-Method
-      pch0 =  (da/2.0-cham_i_delta, 0.0, -(rotations)*P + cham_i) # bottom chamfer
-      pch1 =  (da/2.0, 0.0, -(rotations)*P)  #
-      pch2 =  (da/2.0, 0.0, -(rotations)*P + 3.0*P)
-      pch3 =  (da/2.0-cham_i_delta, 0.0, -(rotations)*P + 3.0*P)
-      #pch4 =  (r-2.0*cham_i_delta, 0.0, -(rotations)*P + 3.0*P)
-    
-      edgech0 = Part.makeLine(pch0,pch1)
-      edgech1 = Part.makeLine(pch1,pch2)
-      edgech2 = Part.makeLine(pch2,pch3)
-      edgech3 = Part.makeLine(pch3,pch0)
-    
-      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
-      cham_Face =Part.Face(Wch_wire)
-      cham_Solid = cham_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
-      #Part.show(cham_Solid)
-      #Part.show(Wch_wire)
       
-      BotShell = Part.Shell(botFaces)
-      #Part.show(BotShell)
-      chamFcutter.translate(FreeCAD.Vector(0.0, 0.0,-(rotations-1)*P))
-      #Part.show(chamFcutter)
-      
-      
-      BotShell = BotShell.common(cham_Solid)
-      #Part.show(BotShell)
-      
-      cham_face = cham_Solid.Faces[0]
-      cham_face = cham_face.cut(chamFcutter)
-      #Part.show(cham_face)
+      #FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
+      # Make separate faces for the tip of the screw
+      botFaces = []
+      for i in range(rotations-2, rotations, 1):
+         TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
     
-      for flaeche in BotShell.Faces:
-        TheFaces.append(flaeche)
-      if da <> None:
-        TheFaces.append(cham_face.Faces[0])
-      else:  
-        TheFaces.append(bot_face)
-      TheShell = Part.Shell(TheFaces)
-    
-      #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " hrots: ", halfrots_int, " Shellpunkte: ", len(TheShell.Vertexes)
-  
-      return TheShell
-
-
-        
-    else: # make of screw tap
+         for flaeche in TheShell.Faces:
+           botFaces.append(flaeche)
+      #FreeCAD.Console.PrintMessage("Bottom-Shell: " + str(i) + "\n")
       #FreeCAD.Console.PrintMessage("without chamfer: " + str(i) + "\n")
-
+  
       commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 3.0*P)
       commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(rotations)*P+bot_off))
       #commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(rotations+3)*P+bot_off))
@@ -4768,17 +4672,121 @@ class Screw(object):
     
       for flaeche in BotShell.Faces:
         TheFaces.append(flaeche)
-      if da <> None:
-        for flaeche in cham_Shell.Faces:
-          TheFaces.append(flaeche)
-      else:  
-        TheFaces.append(bot_face)
+      # if da is not None:
+        # for flaeche in cham_Shell.Faces:
+          # TheFaces.append(flaeche)
+      # else:  
+      TheFaces.append(bot_face)
       TheShell = Part.Shell(TheFaces)
       TheSolid = Part.Solid(TheShell)
-    
-      #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " hrots: ", halfrots_int, " Shellpunkte: ", len(TheShell.Vertexes)
-  
+      #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " rotations: ", rotations, " Shellpoints: ", len(TheShell.Vertexes)
       return TheSolid
+
+    else:
+      # Try to make the inner thread shell of a nut
+      cham_i = 2* H * math.tan(math.radians(15.0)) # inner chamfer
+      
+      # points for chamfer: cut-Method
+      pch0 =  (da/2.0 - 2*H, 0.0, +cham_i) # bottom chamfer
+      pch1 =  (da/2.0, 0.0, 0.0)  #
+      pch2 =  (da/2.0, 0.0, - 2.1*P)
+      pch3 =  (da/2.0 - 2*H, 0.0, - 2.1*P) # 
+
+
+      # pch2 =  (da/2.0, 0.0, l)
+      # pch3 =  (da/2.0 - 2*H, 0.0, l - cham_i)
+    
+      edgech0 = Part.makeLine(pch0,pch1)
+      edgech1 = Part.makeLine(pch1,pch2)
+      edgech2 = Part.makeLine(pch2,pch3)
+      edgech3 = Part.makeLine(pch3,pch0)
+    
+      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
+      bottom_Face =Part.Face(Wch_wire)
+      #bottom_Solid = bottom_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
+      bottom_Solid = bottom_Face.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+      #Part.show(cham_Solid, 'cham_Solid')
+      #Part.show(Wch_wire)
+      bottomChamferFace = bottom_Solid.Faces[0]
+
+      # points for chamfer: cut-Method
+      pch0t =  (da/2.0 - 2*H, 0.0, l -cham_i) # top chamfer
+      pch1t =  (da/2.0, 0.0, l)  #
+      pch2t =  (da/2.0, 0.0, l + 4*P)
+      pch3t =  (da/2.0 - 2*H, 0.0, l + 4*P) # 
+    
+      edgech0t = Part.makeLine(pch0t,pch1t)
+      edgech1t = Part.makeLine(pch1t,pch2t)
+      edgech2t = Part.makeLine(pch2t,pch3t)
+      edgech3t = Part.makeLine(pch3t,pch0t)
+    
+      Wcht_wire = Part.Wire([edgech0t, edgech1t, edgech2t, edgech3t])
+      top_Face =Part.Face(Wcht_wire)
+      top_Solid = top_Face.revolve(Base.Vector(0.0,0.0,(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
+      #Part.show(top_Solid, 'top_Solid')
+      #Part.show(Wch_wire)
+      topChamferFace = top_Solid.Faces[0]
+      
+      threeThreadFaces = TheFaces.copy()
+      for k in range(1):
+        TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
+        for threadFace in TheShell.Faces:
+          threeThreadFaces.append(threadFace)
+          
+      chamferShell = Part.Shell(threeThreadFaces)
+      #Part.show(chamferShell, 'chamferShell')
+      #Part.show(bottomChamferFace, 'bottomChamferFace')
+
+      
+      bottomPart = chamferShell.cut(bottom_Solid)
+      #Part.show(bottomPart, 'bottomPart')
+      bottomFuse, bottomMap = bottomChamferFace.generalFuse([chamferShell], fuzzyValue)
+      #print ('bottomMap: ', bottomMap)
+      #chamFuse, chamMap = chamferShell.generalFuse([bottomChamferFace])
+      #print ('chamMap: ', chamMap)
+      #Part.show(bottomFuse, 'bottomFuse')
+      #Part.show(bottomMap[0][0], 'bMap0')
+      #Part.show(bottomMap[0][1], 'bMap1')
+      innerThreadFaces = [bottomMap[0][1]]
+      for face in bottomPart.Faces:
+        innerThreadFaces.append(face)
+      #bottomShell = Part.Shell(innerThreadFaces)
+      #Part.show(bottomShell)
+      bottomFaces =[]
+      #TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
+      for k in range(1, rotations -2):
+        TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
+        for threadFace in TheShell.Faces:
+          innerThreadFaces.append(threadFace)
+      #testShell = Part.Shell(innerThreadFaces)
+      #Part.show(testShell, 'testShell')
+      
+      chamferShell.translate(FreeCAD.Vector(0.0, 0.0, (rotations - 1)*P))
+      #Part.show(chamferShell, 'chamferShell')
+      #Part.show(topChamferFace, 'topChamferFace')
+      topPart = chamferShell.cut(top_Solid)
+      #Part.show(topPart, 'topPart')
+      for face in topPart.Faces:
+        innerThreadFaces.append(face)
+           
+      topFuse, topMap = topChamferFace.generalFuse([chamferShell], fuzzyValue)
+      #print ('topMap: ', topMap)
+      #Part.show(topMap[0][0], 'tMap0')
+      #Part.show(topMap[0][1], 'tMap1')
+      #Part.show(topFuse, 'topFuse')
+      innerThreadFaces.append(topMap[0][1])
+      
+      #topFaces = []
+      #for face in topPart.Faces:
+      #  topFaces.append(face)
+      #topFaces.append(topMap[0][1])
+      #testTopShell = Part.Shell(topFaces)
+      #Part.show(testTopShell, 'testTopShell')
+
+      threadShell = Part.Shell(innerThreadFaces)
+      #Part.show(threadShell, 'threadShell')
+      
+      return threadShell
 
 
 
@@ -4789,6 +4797,8 @@ class Screw(object):
   # make the ISO 4033 Hex-nut
   def makeIso4032(self,SType ='ISO4032', ThreadType ='M6'):
     dia = self.getDia(ThreadType)
+    #         P, tunIn, tunEx   
+    #Ptun, self.tuning, tunEx = tuningTable[ThreadType]
     if SType == 'ISO4032':
       # P, c, damax,  dw,    e,     m,   mw,   s_nom
       P, c, da, dw, e, m, mw, s = iso4032def[ThreadType]
@@ -4804,8 +4814,11 @@ class Screw(object):
       
     if residue > 0.0:
       turns += 1.0
-      #halfturns = halfturns +2
-    #offSet = r - a
+    if SType == 'ISO4033' and ThreadType == '(M14)':
+      turns -= 1.0
+    if SType == 'ISO4035' and ThreadType == 'M56':
+      turns -= 1.0
+
     
     sqrt2_ = 1.0/math.sqrt(2.0)
     cham = (e-s)*math.sin(math.radians(15)) # needed for chamfer at nut top
@@ -4849,28 +4862,32 @@ class Screw(object):
   
     # Part.show(extrude)
     nut = head.cut(extrude)
-    # Part.show(nut)
+    #Part.show(nut, 'withoutTread')
 
     if self.rThread:
-      '''
-      threadCutter = self.makeInnerThread(dia, P, int(turns), None, m)
-      # Part.show(threadCutter)
-      threadCutter.translate(Base.Vector(0.0, 0.0,turns*P))
-      nut = nut.cut(threadCutter)
-      '''
-      nutFaces = [nut.Faces[2]]
-      for i in range(4,25):
-        nutFaces.append(nut.Faces[i])
-
-
-      threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
-      threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
-      #Part.show(threadShell)
-      nutFaces.extend(threadShell.Faces)
-      
-      nutShell = Part.Shell(nutFaces)
-      nut = Part.Solid(nutShell)
-      #Part.show(nutShell)
+      #if (dia < 1.6)or (dia > 52.0):
+      if (dia < 1.6)or (dia > 64.0):
+        #if (dia < 3.0):
+        threadCutter = self.makeInnerThread_2(dia, P, int(turns+1), None, m)
+        threadCutter.translate(Base.Vector(0.0, 0.0,turns*P+0.5*P))
+        #Part.show(threadCutter, 'threadCutter')
+        nut = nut.cut(threadCutter)
+        #chamFace = nut.Faces[0].cut(threadCutter)
+        #Part.show(chamFace, 'chamFace0_')
+      else:
+        nutFaces = [nut.Faces[2]]
+        for i in range(4,25):
+          nutFaces.append(nut.Faces[i])
+        # Part.show(Part.Shell(nutFaces), 'OuterNutshell')
+  
+        threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
+        #threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
+        # Part.show(threadShell, 'threadShell')
+        nutFaces.extend(threadShell.Faces)
+        
+        nutShell = Part.Shell(nutFaces)
+        nut = Part.Solid(nutShell)
+        #Part.show(nutShell)
     
     return nut
 
@@ -5003,13 +5020,18 @@ class Screw(object):
     
     topFaces.extend(hexShell.Faces)
     
-    if self.rThread:
+    if self.rThread and (dia > 4.0):
       aWire=Part.Wire([edge2,edge3,edge4])
       boltIndex = 3
     
     else:
-      Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,m - cham_i)
-      Pnt6 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,0.0+ cham_i)
+      if self.rThread:
+        Pnt7 = Base.Vector(dia/2.1-H*5.0/8.0,0.0,m - cham_i)
+        Pnt6 = Base.Vector(dia/2.1-H*5.0/8.0,0.0,0.0+ cham_i)
+        
+      else:
+        Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,m - cham_i)
+        Pnt6 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,0.0+ cham_i)
       edge5 = Part.makeLine(Pnt5,Pnt6)
       edge6 = Part.makeLine(Pnt6,Pnt7)
       edge7 = Part.makeLine(Pnt7,PntH0)
@@ -5031,27 +5053,33 @@ class Screw(object):
 
     
     if self.rThread:
-      #rthread = self.makeShellthread(dia, P, halfturns, True, offSet)
-      #rthread.translate(Base.Vector(0.0, 0.0,-a_point-2.0*P))
-      threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
-      threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
-      #Part.show(threadShell)
-      for tFace in threadShell.Faces:
-        topFaces.append(tFace)
-      headShell = Part.Shell(topFaces)
-      screw = Part.Solid(headShell)
+      if dia < 5.0:
+        nutShell = Part.Shell(topFaces)
+        nut = Part.Solid(nutShell)
+        #Part.show(nut, 'unthreadedNut')
+        threadCutter = self.makeInnerThread_2(dia, P, int(turns+1), None, m)
+        threadCutter.translate(Base.Vector(0.0, 0.0,turns*P+0.5*P))
+        #Part.show(threadCutter, 'threadCutter')
+        nut = nut.cut(threadCutter)
+        
+      else:
+        threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
+        #threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
+        #Part.show(threadShell)
+        for tFace in threadShell.Faces:
+          topFaces.append(tFace)
+        headShell = Part.Shell(topFaces)
+        nut = Part.Solid(headShell)
     else:
-      screwShell = Part.Shell(topFaces)
-      screw = Part.Solid(screwShell)
+      nutShell = Part.Shell(topFaces)
+      nut = Part.Solid(nutShell)
 
-    return screw
-
-
+    return nut
 
 
-  # make ISO 7380-1 Button head Screw 
-  # make ISO 7380-2 Button head Screw with collar 
-  # make DIN 967 cross recessed pan head Screw with collar 
+
+
+
   def makeScrewTap(self, ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType)
 

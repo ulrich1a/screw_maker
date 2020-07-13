@@ -18,7 +18,7 @@ fixed bool type error. (int is not anymore accepted at linux)
 fixed starting point of real thread at some screw types.
 
 Version 1.8 from July 2014
-first approch for a faster real thread
+first approach for a faster real thread
 
 Version 1.9 / 2.0 July 2015
 new calculation of starting point of thread
@@ -228,7 +228,7 @@ iso4017length = {
   '200':(199.1, 200.9)
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso4017range = {
   'M1.6':  ('2', '16'),
@@ -331,7 +331,7 @@ iso8676length = {
   '500':(496.85, 503.15)   
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso8676range = {
   'M8x1':      ('16', '80'),
@@ -441,7 +441,7 @@ iso4014length = {
   '500':(496.85, 503.15)   
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso4014range = {
   'M1.6':('12', '16'),
@@ -488,7 +488,7 @@ en1662def={
   'M16':(2.00, 55.0, 38.0, 44.0, 57.0, 2.4, 32.8, 30.6, 23.15, 15.2, 6.8, 3.2, 0.6, 21.0)}
 
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 en1662range = {
   'M5': ('10', '50'),
@@ -540,7 +540,7 @@ en1665def={
   'M20':(2.50, 65.0, 46.0, 52.0, 65.0, 3.0, 43.0, 39.9, 33.23, 18.9, 8.9, 4.2, 0.8, 30.0)}
 
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 en1665range = {
   'M5': ('10', '50'),
@@ -597,7 +597,7 @@ iso1207def={
   'M8':  (1.25, 2.5, 38.0, 13.0, 12.85, 9.2, 5.0, 2.06, 0.4, 2.0, 3.2),
   'M10': (1.50, 3.0, 38.0, 16.0, 15.85, 11.2,6.0, 2.56, 0.4, 2.4, 3.8)}
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso1207range = {
   'M1.6':('2', '16'),
@@ -654,7 +654,7 @@ iso14580def={
   'M8':  ('T45', 5.80, 7.95, 2.9),
   'M10': ('T50', 6.90, 8.95, 3.3)}
   
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 # iso14580range = iso1207range
 
@@ -699,7 +699,7 @@ iso7048def={
   'M8':  (1.25, 2.5, 38.0, 13.0, 12.85, 9.2, 5.0, 0.4, 3.2, '3', 7.7, 7.5)
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso7048range = {
   'M2.5':('3', '25'),
@@ -775,7 +775,7 @@ iso7380def={
   'M16': (2.00, 44.0, 3.5, 17.7, 28.0, 27.8, 10.06,5.20, 0.6, 8.8, 11.43, 2.25)
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso7380range = {
   'M3':  ('6', '30'),
@@ -812,7 +812,7 @@ din967def={
   'M8':  (1.25, 38.0, 2.0,  9.2, 19.0, 0.4, 5.90, 11.0, 3.2,  '4', 9.0, 8.8)
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 din967range = {
   'M3':  ('4', '30'),
@@ -889,7 +889,7 @@ iso2009def={
    'M8':  (1.25, 2.5, 38,17.3, 15.6, 4.65, 2.06, 1.0, 2.0, 3.2),
    'M10': (1.50, 3.0, 38,20.0, 18.1, 5.0,  2.56, 1.2, 2.3, 3.8)}
    
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso2009range = {
   'M1.6':('2.5', '16'),
@@ -905,7 +905,7 @@ iso2009range = {
 
 
 # ISO 7046 definitions Class A
-# ISO 7046 Countersunk flat head srews (common head style)
+# ISO 7046 Countersunk flat head screws (common head style)
 # with type H or type Z cross recess
 # Parameters P, a, b, dk_theo, dk_mean, k, r, x to be read from iso2009def
 # Length = iso7045length
@@ -922,7 +922,7 @@ iso7046def={
   'M8':  ('4', 8.9, 8.8),
   'M10': ('4', 10.0,9.8)}
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso7046range = {
   'M1.6':('3', '16'),
@@ -966,7 +966,7 @@ iso14582def={
   'M8':  (1.25, 2.5, 28.0, 19.38, 17.8, 5.69, 0.40, 'T45', 7.93, 2.8),
   'M10': (1.50, 3.0, 32.0, 23.00, 21.1, 6.50, 0.40, 'T50', 8.95, 3.3)}
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso14582range = {
   'M3':  ('8', '30'),
@@ -1055,7 +1055,7 @@ iso7045length = {
   '60':(59.05, 60.95)
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso7045range = {
   'M1.6':('3', '16'),
@@ -1103,7 +1103,7 @@ iso14584def={
   'M10': (1.50, 38.0, 20.0, 18.3,  2.3, 5.00, 1.2, 19.5, 3.80, 'T50', 8.95, 3.8)}
 
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso14584range = {
   'M2':  ('3', '20'),
@@ -1186,7 +1186,7 @@ iso4762length = {
   '300':(219.1, 220.9)
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso4762range = {
   'M1.6':('2.5', '16'),
@@ -1233,7 +1233,7 @@ iso14579def={
   'M20': ('T90', 20.20, 9.0),
   }
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso14579range = {
   'M2':  ('3', '20'),
@@ -1300,7 +1300,7 @@ iso10642def={
   'M16': (2.00, 44.0, 33.60, 31.0, 17.5, 15.73, 11.43, 8.80, 0.6, 10.07,  4.8, 2.20),
   'M20': (2.50, 52.0, 40.32, 38.0, 22.0, 19.67, 13.72, 10.16, 0.8, 12.10,  5.6, 2.20)}
 
-# range of typical srew lengths
+# range of typical screw lengths
 #    min_length,  max_length
 iso10642range = {
   'M3':  ('8', '30'),
@@ -2673,14 +2673,14 @@ class Screw(object):
       P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = iso2009def[ThreadType]
       dk_max = dk_theo
       t_min = t_mean
-      ht = 0.0 # Head heigth of flat head
+      ht = 0.0 # Head height of flat head
       if (SType == 'ISO2010'):
         rf, t_mean, cT, mH, mZ = Raised_countersunk_def[ThreadType]
         #Lengths and angles for calculation of head rounding
         beta = math.asin(dk_mean /2.0 / rf)   # angle of head edge
         tan_beta = math.tan(beta)      
         alpha = beta/2.0 # half angle
-        # heigth of raised head top
+        # height of raised head top
         ht = rf - (dk_mean/2.0) / tan_beta
         h_arc_x = rf * math.sin(alpha) 
         h_arc_z = ht - rf + rf * math.cos(alpha)
@@ -2816,7 +2816,7 @@ class Screw(object):
 
        alpha = (beta_A + beta)/2.0 # half angle
        #print 'alpha: ', math.degrees(alpha)
-       # heigth of head edge
+       # height of head edge
        he = k - A/2.0/tan_beta_A + (dk_max/2.0) / tan_beta    
        #print 'he: ', he
        h_arc_x = rf * math.sin(alpha) 
@@ -2825,7 +2825,7 @@ class Screw(object):
     else:
        alpha = beta/2.0 # half angle
        #print 'alpha: ', math.degrees(alpha)
-       # heigth of head edge
+       # height of head edge
        he = k - rf + (dk_max/2.0) / tan_beta    
        #print 'he: ', he
        h_arc_x = rf * math.sin(alpha) 
@@ -2948,7 +2948,7 @@ class Screw(object):
       #Lengths and angles for calculation of recess positioning
       beta_cr = math.asin(mH /2.0 / rf)   # angle of recess edge
       tan_beta_cr = math.tan(beta_cr)      
-      # heigth of cross recess cutting
+      # height of cross recess cutting
       hcr = k - rf + (mH/2.0) / tan_beta_cr
       #print 'hcr: ', hcr
       
@@ -3573,7 +3573,7 @@ class Screw(object):
       t_mean = t
     else: #still need the data from iso2009def, but this screw can not created here
       P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = iso2009def[ThreadType]
-      ht = 0.0 # Head heigth of flat head
+      ht = 0.0 # Head height of flat head
     if SType == 'ISO7046':
       cT, mH, mZ  = iso7046def[ThreadType]
     if (SType == 'ISO7047'):
@@ -3582,7 +3582,7 @@ class Screw(object):
       beta = math.asin(dk_mean /2.0 / rf)   # angle of head edge
       tan_beta = math.tan(beta)      
       alpha = beta/2.0 # half angle
-      # heigth of raised head top
+      # height of raised head top
       ht = rf - (dk_mean/2.0) / tan_beta
       #print 'he: ', he
       h_arc_x = rf * math.sin(alpha) 
